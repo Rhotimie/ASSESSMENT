@@ -10,7 +10,7 @@ user_schema = UserSchema(unknown=EXCLUDE)
 multiple_user_schema = UserSchema(many=True)
 
 
-class User(Resource):
+class UsersList(Resource):
     @classmethod
     def get(cls,):
         sort_by = UserModel.sort_by(request.args.get('sort', 'created_on'),
@@ -23,8 +23,7 @@ class User(Resource):
         
         users_per_page = int(request.args.get('users_per_page', 20))
         
-        page_object = UserModel.find_by_product_status("Active") \
-            .filter(UserModel.search(request.args.get('q', ''))) \
+        page_object = UserModel.query.filter(UserModel.search(request.args.get('q', ''))) \
             .order_by(text(order_values)) \
             .paginate(page, users_per_page,  False)
 
@@ -32,7 +31,7 @@ class User(Resource):
         return {
             "responseCode": 200,
             "responseDescription": "Success",
-            "responseMessage": multiple_user_schema.dump(page_object)
+            "responseMessage": multiple_user_schema.dump(page_object.items)
         }
 
 

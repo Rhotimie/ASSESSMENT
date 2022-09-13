@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api
-from project.blueprints.user.resources import User
+from project.blueprints.user.resources import UsersList
 
 
 user = Blueprint(
@@ -11,4 +11,4 @@ user = Blueprint(
 api = Api(user)
 
 
-api.add_resource(User, "", endpoint="user")
+api.add_resource(UsersList, "", endpoint="user")

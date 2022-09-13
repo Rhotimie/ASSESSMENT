@@ -5,6 +5,7 @@ from lib.util_sqlalchemy import ResourceMixin
 from project.extensions import db
 from sqlalchemy_utils import UUIDType
 from collections import OrderedDict
+from werkzeug.security import generate_password_hash, check_password_hash
 
 UserJSON = Dict[str, Union[int, str]]
 
@@ -104,6 +105,24 @@ class UserModel(ResourceMixin, db.Model):
     @classmethod
     def find_by_id(cls, _id: int) -> "UserModel":
         return cls.query.filter_by(Id=_id).first()
+    
+    @classmethod
+    def encrypt_password(cls, plaintext_password):
+        """
+        Hash a plaintext string using PBKDF2. This is good enough according
+        to the NIST (National Institute of Standards and Technology).
+
+        In other words while bcrypt might be superior in practice, if you use
+        PBKDF2 properly (which we are), then your passwords are safe.
+
+        :param plaintext_password: Password in plain text
+        :type plaintext_password: str
+        :return: str
+        """
+        if plaintext_password:
+            return generate_password_hash(plaintext_password)
+
+        return None
 
     @classmethod
     def search(cls, query):

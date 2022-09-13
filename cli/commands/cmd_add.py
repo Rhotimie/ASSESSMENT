@@ -8,17 +8,23 @@ import numpy as np
 from project.app import create_app
 from project.extensions import db
 from project.blueprints.user.models import UserModel
-
+from sqlalchemy_utils import database_exists, create_database
 
 
 # Create an app context for the database connection.
 app = create_app()
 db.app = app
+db_uri = app.config["SQLALCHEMY_DATABASE_URI"]
+if not database_exists(db_uri):
+    create_database(db_uri)
+    
 db.create_all()
 
 fake = Faker()
 bool_options = [True, False]
 gender_options = ["male", "female", "unknown"]
+
+INITIAL_SEED_COUNT = app.config["INITIAL_SEED_COUNT"]
 
 def _log_status(count, model_label):
     """
@@ -76,7 +82,7 @@ def users():
     click.echo("Working...")
 
     # Ensure we get about 100 unique random emails.
-    for _ in range(0, 1000000):
+    for _ in range(0, INITIAL_SEED_COUNT):
         random_emails.append(fake.email())
 
     random_emails = list(set(random_emails))

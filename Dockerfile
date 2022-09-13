@@ -1,6 +1,6 @@
 FROM python:3.7.11-buster
 
-RUN apt-get update && apt-get -y install wkhtmltopdf && apt-get install -qq -y \
+RUN apt-get update && apt-get install -qq -y \
   build-essential libpq-dev --no-install-recommends \
   && apt-get install -y wget
 
@@ -14,8 +14,6 @@ RUN pip install -r requirements.txt
 RUN pip install itsdangerous==2.0.0
 RUN pip install werkzeug==2.0.3
 RUN pip install jinja2==3.0.3
-RUN pip install uwsgi
-RUN pip install redis==3.5.3
 
 
 RUN chmod +rwx /etc/ssl/openssl.cnf

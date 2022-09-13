@@ -15,6 +15,7 @@ note.txt
 .Python
 documents/
 log/
+data/
 build/
 develop-eggs/
 dist/

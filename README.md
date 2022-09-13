@@ -42,3 +42,10 @@ Timerange – 7 days
 * https://www.postgresql.org/docs/13/index.html
 * https://www.sqlite.org/docs.html
 * https://stackabuse.com/deploying-a-flask-application-to-heroku/
+
+
+## SETUP INSTRUCTIONS
+* docker-compose up --build
+* docker exec -it project_website_1 bash
+* pip install --editable .
+* docker-compose exec website project add all
